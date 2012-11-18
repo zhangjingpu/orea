@@ -1,0 +1,13 @@
+在使用Orea之前您需要对oreainfo.php进行配置，具体如下：
+·将CODING_TYPE定义为您的网页编码方式
+·将OREA_PATH定义为为dics的目录(如C:\orea\dics)
+
+Attention: You need to change something before using Orea Censor. Open 'oreainfo.php' and then config it as follows:
+·CODING_TYPE defined encoding for your page
+·OREA_PATH defined for dics directory (such as the C:\orea\dics)
+
+此版本仅供研究学习，如果您将把Orea用于商业用途，请到http://orea.daruisoft.com/index.php?p=1购买相应版本。
+
+联系方式
+邮箱：reaten@126.com
+QQ:584208949
