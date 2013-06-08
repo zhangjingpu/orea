@@ -1,6 +1,6 @@
 <?php
 /**
- * OreaÃô¸Ğ´Ê´¦ÀíÏµÍ³×Ö´Ê´¦ÀíÀà
+ * Oreaæ•æ„Ÿè¯å¤„ç†ç³»ç»Ÿå­—è¯å¤„ç†ç±»
  * [example]
  * $chk_words_obj = new Censor($content);
  * $content = $chk_words_obj->content;
@@ -9,41 +9,46 @@
  * @version 1.0
  */
 
-include 'oreainfo.php';
+include 'class/oreainfo.php';
 
 class Censor
 {
 	
 	var $content;
-	private $RightSituation;//¼ì²âÓÒ²à×Ö´Ê
-	private $LeftSituation;//¼ì²â×ó²à×Ö´Ê
-	private $ArrPos; //Î»ÖÃÊı×é£¨¶şÎ¬£©
+	private $RightSituation;//æ£€æµ‹å³ä¾§å­—è¯
+	private $LeftSituation;//æ£€æµ‹å·¦ä¾§å­—è¯
+	private $ArrPos; //ä½ç½®æ•°ç»„ï¼ˆäºŒç»´ï¼‰
 	private $ArrNowWord;
 	var $hycd;
 	
 	/**
-	 * ¹¹Ôìº¯Êı
-	 * ÅĞ¶Ï´¦ÀíÀàĞÍ
-	 * @param string $content ´«ÈëµÄ´ı´¦ÀíÄÚÈİ
+	 * æ„é€ å‡½æ•°
+	 * åˆ¤æ–­å¤„ç†ç±»å‹
+	 * @param string $content ä¼ å…¥çš„å¾…å¤„ç†å†…å®¹
 	*/
 	function __construct($content)
 	{
 		
 		$this->content = $content;
-		$this->hycd = file_get_contents(OREA_PATH.'/hycd.txt');
+		$this->hycd = file_get_contents(OreaPath.'/hycd.txt');
 		$this->handlewords($content);
 		unset($this->hycd);
 		
 	}
+
+	function consult()
+	{
+		return $this->content;
+	}
 	
 	/**
-	 * Æ¥Åäº¯Êı£¨Ö÷º¯Êı£©
-	 * @return string $content ´¦ÀíÍêµÄÎÄ×Ö
+	 * åŒ¹é…å‡½æ•°ï¼ˆä¸»å‡½æ•°ï¼‰
+	 * @return string $content å¤„ç†å®Œçš„æ–‡å­—
 	 */
-	private function handlewords()//ÕıÊ½´¦Àí¹ı³Ì
+	private function handlewords()//æ­£å¼å¤„ç†è¿‡ç¨‹
 	{
 		
-		$tree = unserialize(file_get_contents(OREA_PATH.'/tree.txt'));
+		$tree = unserialize(file_get_contents(OreaPath.'/tree.txt'));
 		
 		foreach ($tree['head'] as $tmp)
 		{
@@ -92,7 +97,7 @@ class Censor
 							{
 								$this->ReCheck($LeftWord, $RightWord);
 								/*
-								 * Âß¼­ 
+								 * é€»è¾‘ 
 								 */
 								if ($this->RightSituation == false && $this->LeftSituation == false)
 								{
@@ -162,23 +167,23 @@ class Censor
 		}
 		
 		/*
-		 * ÅĞ¶ÏÊÇ·ñÅú×¼·¢²¼
+		 * åˆ¤æ–­æ˜¯å¦æ‰¹å‡†å‘å¸ƒ
 		 */
 		if (!$this->IsAble($this->content))
 		{
 			
-			$this->content = 'Ãô¸ĞÄÚÈİËùÕ¼±ÈÖØÌ«´ó£¬½ûÖ¹·¢²¼£¡';
+			$this->content = 'æ•æ„Ÿå†…å®¹æ‰€å æ¯”é‡å¤ªå¤§ï¼Œç¦æ­¢å‘å¸ƒï¼';
 			
 		}
 	}
 	
 	/**
-	 * ½øÒ»²½Æ¥Åäº¯Êı
-	 * @param string $Left ×ó²à´Ê»ã
-	 * @param string $Right ÓÒ²à´Ê»ã
-	 * @return boolean true||false ÊÇ·ñ´æÔÚ
-	 * @return boolean RightSituation ÓÒ²àÊÇ·ñÓĞ
-	 * @return boolean LeftSituation ×ó²àÊÇ·ñÓĞ
+	 * è¿›ä¸€æ­¥åŒ¹é…å‡½æ•°
+	 * @param string $Left å·¦ä¾§è¯æ±‡
+	 * @param string $Right å³ä¾§è¯æ±‡
+	 * @return boolean true||false æ˜¯å¦å­˜åœ¨
+	 * @return boolean RightSituation å³ä¾§æ˜¯å¦æœ‰
+	 * @return boolean LeftSituation å·¦ä¾§æ˜¯å¦æœ‰
 	 */
 	private function ReCheck($Left, $Right)
 	{
@@ -212,9 +217,9 @@ class Censor
 	}
 	
 	/**
-	 * µ¥¸öÈ·ÈÏº¯Êı
-	 * @param string $Vo ´ı²éÑ¯µÄ´Ê
-	 * @return true||false boolean ²éÑ¯½á¹û
+	 * å•ä¸ªç¡®è®¤å‡½æ•°
+	 * @param string $Vo å¾…æŸ¥è¯¢çš„è¯
+	 * @return true||false boolean æŸ¥è¯¢ç»“æœ
 	 */
 	private function ReCheckVo($Vo)
 	{
@@ -233,7 +238,7 @@ class Censor
 	}
 	
 	/**
-	 * Ìæ»»º¯Êı£¨¸ù£© ¾ö¶¨²ÉÓÃºÎÖÖÌæ»»º¯Êı£¬²¢·µ»ØÖµ
+	 * æ›¿æ¢å‡½æ•°ï¼ˆæ ¹ï¼‰ å†³å®šé‡‡ç”¨ä½•ç§æ›¿æ¢å‡½æ•°ï¼Œå¹¶è¿”å›å€¼
 	 * @param string $content
 	 * @param string $tmp
 	 * @param string $which
@@ -262,11 +267,11 @@ class Censor
 	}
 	
 	/**
-	 * Ö¸¶¨Ìæ»»º¯Êı
+	 * æŒ‡å®šæ›¿æ¢å‡½æ•°
 	 * @param string $content
 	 * @param string $tmpc
 	 * @param string $which
-	 * @return string Ìæ»»ºóµÄÄÚÈİ
+	 * @return string æ›¿æ¢åçš„å†…å®¹
 	 */
 	private function ReturnContentT($content, $tmpc, $count, $which)
 	{
@@ -310,12 +315,12 @@ class Censor
 	}
 	
 	/**
-	 * Ìæ»»º¯Êı£¨Ö§³ÖÄ£ºı°æ£©ReturnContent()º¯ÊıÍ¬´Ë
-	 * ÕâÀï¼ÓwhileÑ­»·ÊÇÎªÁË±ÜÃâ°Ñ±êµã·ûºÅÄÃ×ßºó£¬ÒıÆğ$PeÓëÔ­ÎÄµÄ²»·û£¬ËùÒÔÔÚÖĞ¼äÔö¼Ó¿ÉÒÔÄ£ºıµÄÎ»Êı
-	 * µ«ÊÇÒª±ÜÃâÏİÈëËÀÑ­»·£¬×î´óÎª40
-	 * @param $content string ´ı´¦ÀíµÄÄÚÈİ
-	 * @param $Pe string Æ¥Åä±í´ïÊ½
-	 * @return $content string *ºÅÌæ»»ºóµÄÄÚÈİ
+	 * æ›¿æ¢å‡½æ•°ï¼ˆæ”¯æŒæ¨¡ç³Šç‰ˆï¼‰ReturnContent()å‡½æ•°åŒæ­¤
+	 * è¿™é‡ŒåŠ whileå¾ªç¯æ˜¯ä¸ºäº†é¿å…æŠŠæ ‡ç‚¹ç¬¦å·æ‹¿èµ°åï¼Œå¼•èµ·$Peä¸åŸæ–‡çš„ä¸ç¬¦ï¼Œæ‰€ä»¥åœ¨ä¸­é—´å¢åŠ å¯ä»¥æ¨¡ç³Šçš„ä½æ•°
+	 * ä½†æ˜¯è¦é¿å…é™·å…¥æ­»å¾ªç¯ï¼Œæœ€å¤§ä¸º40
+	 * @param $content string å¾…å¤„ç†çš„å†…å®¹
+	 * @param $Pe string åŒ¹é…è¡¨è¾¾å¼
+	 * @return $content string *å·æ›¿æ¢åçš„å†…å®¹
 	 */
 	private function ReturnContentX($content, $Pe)
 	{
@@ -354,7 +359,7 @@ class Censor
 		unset($len);
 	}
 	/**
-	 * Ìæ»»º¯Êı£¨·ÇÄ£ºı£©
+	 * æ›¿æ¢å‡½æ•°ï¼ˆéæ¨¡ç³Šï¼‰
 	 */
 	private function ReturnContent($content, $tmp)
 	{
@@ -369,9 +374,9 @@ class Censor
 		
 	}
 	/**
-	 * ÅĞ¶ÏÎÄ×ÖÊÇ·ñ·¢²¼
-	 * @param $content string ¾­¹ıÉÏÊöËùÓĞ²½Öè´¦ÀíºóµÄÎÄ×Ö
-	 * @return true||false ÊÇ·ñÅú×¼·¢²¼
+	 * åˆ¤æ–­æ–‡å­—æ˜¯å¦å‘å¸ƒ
+	 * @param $content string ç»è¿‡ä¸Šè¿°æ‰€æœ‰æ­¥éª¤å¤„ç†åçš„æ–‡å­—
+	 * @return true||false æ˜¯å¦æ‰¹å‡†å‘å¸ƒ
 	 */
 	private function IsAble($content)
 	{
@@ -393,7 +398,7 @@ class Censor
 	}
 	
 	/**
-	 * »ñÈ¡ËùÓĞÎ»ÖÃ
+	 * è·å–æ‰€æœ‰ä½ç½®
 	 * @param string $content
 	 * @param string $tmp
 	 * @return array $arr positions
